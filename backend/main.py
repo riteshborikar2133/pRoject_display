@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from pymongo import MongoClient
@@ -34,7 +35,11 @@ def create_circular():
     try:
         # Extract JSON data from the request
         data = request.get_json()
-        result = circulars_collection.insert_one(data)
+        result = circulars_collection.insert_one({
+            "title": request.json["title"],
+            "message": request.json["message"],
+            "type": request.json["type"],
+        })
         return jsonify({'status': 'success', 'id': str(result.inserted_id)})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
@@ -66,6 +71,35 @@ def get_reports():
         return dumps(data)  # Use dumps to serialize MongoDB data to JSON
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+
+@app.route('/api/circulars/<id>',methods=['DELETE']) #@app.route('/api/delete/reports/<name>',methods=['DELETE'])
+def delete_reports(id: str): #def delete_reports(name):
+    '''To make the delete with name, we need to change the <id> into name and use delete_one({'name':name})'''
+    try:
+        # Convert the string ID to ObjectId
+        object_id = ObjectId(id)
+        # print(object_id)
+        # Name = str(name)
+    except Exception as e:
+        return jsonify({'error': 'Invalid ID format'}), 400
+    
+    # Delete the document from the 'reports' collection
+    # reports_collection = db.reports
+    result = circulars_collection.delete_one({'_id': ObjectId(id)})
+    # result = reports_collection.delete_one({'name': Name})
+    
+    if result.deleted_count > 0:
+        return jsonify({'message': 'Document deleted successfully'})
+    else:
+        return jsonify({'error': 'Document not found'}), 404
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
