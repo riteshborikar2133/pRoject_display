@@ -1,6 +1,7 @@
 .container{
     color: white;
     background: url(back.jpg);
+    border: 1px solid red;
 }
 
 .messages{

@@ -91,14 +91,37 @@ export default function Form() {
 
     const handleDelete = async (id) => {
         const userResponse = window.confirm('Are you sure you want to delete this user?');
-        if (!!userResponse) {
-            const res = await fetch(`http://127.0.0.1:5000/api/circulars/${id}`, {
-                method: 'DELETE',
-            });
-            // await getUsers();
-            console.log(res);
+
+        if (userResponse) {
+            // Check if `id` is an object with the structure { "$oid": "..." }
+            const objectId = id?.$oid || (typeof id === 'object' ? id._id : id);
+
+            console.log("ObjectId used in URL:", objectId); // Debugging log
+
+            if (!objectId) {
+                console.error("Error: objectId is undefined or null");
+                return;
+            }
+
+            try {
+                const res = await fetch(`http://127.0.0.1:5000/api/circulars/${objectId}`, {
+                    method: 'DELETE',
+                });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+
+                const data = await res.json();
+                console.log('Delete response:', data);
+
+            } catch (error) {
+                console.error('Error during deletion:', error);
+            }
         }
-    }
+    };
+
+
 
 
 

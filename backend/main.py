@@ -18,7 +18,7 @@ encoded_password = urllib.parse.quote_plus(password)
 
 # MongoDB Atlas connection string with encoded credentials
 # Replace <cluster-url> with your MongoDB Atlas cluster URL, and <database> with your database name
-MONGO_URI = f"mongodb+srv://riteshborikar2133:riteshborikar$2133@cluster0.y5ctwtu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = f"mongodb+srv://riteshborikar2133:Password123@cluster0.y5ctwtu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 
@@ -30,17 +30,42 @@ db = client['DataBase']  # Replace with your database name
 circulars_collection = db['circulars']  # Collection for circulars
 reports_collection = db['reports']  # Collection for reports
 
+
+
+def determine_priority(content):
+    author = content.get('author')
+
+    # Priority based on the author
+    if author == "HOD":
+        return 0  # Highest priority for HOD
+    elif author == "Department":
+        return 1  # High priority for Department
+    elif author == "Event Organizer":
+        return 2  # Medium priority for events
+    else:
+        return 3  # Default priority for any other type
+
+
+
+
+
+
+
 @app.route('/api/circulars', methods=['POST'])
 def create_circular():
     try:
         # Extract JSON data from the request
         data = request.get_json()
+        res = circulars_collection.find({"message":request.json['title']})
+
+        priority = determine_priority(data)
         result = circulars_collection.insert_one({
             "title": request.json["title"],
             "message": request.json["message"],
             "type": request.json["type"],
+            "priority": priority
         })
-        return jsonify({'status': 'success', 'id': str(result.inserted_id)})
+        return jsonify({'status': 'success', 'id': str(result.inserted_id)}), 201
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
@@ -63,11 +88,13 @@ def create_report():
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
+
+
 @app.route('/api/reports', methods=['GET'])
 def get_reports():
     try:
         # Fetch all documents from the reports collection
-        data = reports_collection.find()
+        data = reports_collection.find().sort('priority', 1)
         return dumps(data)  # Use dumps to serialize MongoDB data to JSON
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500

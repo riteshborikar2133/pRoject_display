@@ -12,7 +12,7 @@ const Clock = () => {
     }, []);
 
     return (
-        <div>
+        <div className='clock-container'>
             {/* <h2>Current Time:</h2> */}
             {/* <h3 className='clocktxt'>{time.toLocaleTimeString()}</h3> */}
             <h3 className='clocktxt'>{time.toLocaleDateString()} <br /> {time.toLocaleTimeString()}</h3> {/* Displays both date and time */}

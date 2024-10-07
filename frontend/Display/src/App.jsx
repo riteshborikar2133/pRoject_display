@@ -72,17 +72,21 @@ import './App.css'
 
 
 import React from 'react'
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Form from './component/Form'
 import MessageDisplay from './component/MessageDisplay'
+import Weather from './component/Weather/Weather'
+import Login from './component/INPUTFORM/Login'
 
 export default function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<MessageDisplay/>}/>
-      <Route path='/input' element={<Form/>}/>
-    </Routes>
+      <Routes>
+        <Route path='/' element={<MessageDisplay />} />
+        <Route path='/input' element={<Form />} />
+        <Route path='/we' element={<Weather />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </BrowserRouter>
   )
 }
