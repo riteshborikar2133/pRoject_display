@@ -77,6 +77,8 @@ import Form from './component/Form'
 import MessageDisplay from './component/MessageDisplay'
 import Weather from './component/Weather/Weather'
 import Login from './component/INPUTFORM/Login'
+import NewInput from './component/NewInput/NewInput'
+import Notice from './component/Carousel/Notice'
 
 export default function App() {
   return (
@@ -84,8 +86,10 @@ export default function App() {
       <Routes>
         <Route path='/' element={<MessageDisplay />} />
         <Route path='/input' element={<Form />} />
-        <Route path='/we' element={<Weather />} />
+        {/* <Route path='/we' element={<Weather />} /> */}
         <Route path='/login' element={<Login />} />
+        <Route path='/newinput' element={<NewInput />} />
+        <Route path='/display' element={<Notice />} />
       </Routes>
     </BrowserRouter>
   )

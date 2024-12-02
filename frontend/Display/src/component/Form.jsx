@@ -17,7 +17,8 @@ export default function Form() {
     const [data, setData] = useState({
         title: "",
         message: "",
-        type: ""
+        type: "",
+        author: ""
     })
 
 
@@ -132,72 +133,85 @@ export default function Form() {
 
     return (
         <div className='container'>
-            <select name="" id="" onChange={(e) => { setOpt(e.target.value) }}>
-                <option value="img">Image</option>
-                <option value="text">Text</option>
-            </select>
-            <div>
-                {
-                    opt === "text" &&
-                    <div> <div className="from">
-                        <form onSubmit={handlSubmit}>
-                            <label htmlFor="title">Title: </label>
-                            <input type="text" id='title' onChange={(e) => { setData({ ...data, title: e.target.value }) }} />
-                            <br /> <br />
-                            <label htmlFor="message">Context: </label>
-                            <textarea type="text" id='message' onChange={(e) => { setData({ ...data, message: e.target.value, type: "text" }) }} />
-                            <br /> <br />
-                            <button type='submit'>Submit</button>
-                        </form>
-                    </div></div>
-                }{
-                    opt == "img" &&
+            <div className="form-container">
+                <h2>Submit a Notice</h2>
+                <div className="inputs">
+                    <select name="" id="" onChange={(e) => { setOpt(e.target.value) }}>
+                        <option value="img">Image</option>
+                        <option value="text">Text</option>
+                    </select>
                     <div>
-                        <form onSubmit={handleImageSubmit}>
+                        {
+                            opt === "text" &&
+                            <div> <div className="from">
+                                <form onSubmit={handlSubmit}>
+                                    <label htmlFor="title">Title: </label>
+                                    <input type="text" id='title' onChange={(e) => { setData({ ...data, title: e.target.value }) }} />
+                                    <br /> <br />
+                                    <label htmlFor="message">Context: </label>
+                                    <textarea type="text" id='message' onChange={(e) => { setData({ ...data, message: e.target.value, type: "text" }) }} />
+                                    <br /> <br />
+                                    <label>Author:</label>
+                                    <input
+                                        type="text"
+                                        onChange={(e) => { setData({ ...data, author: e.target.value, type: "text" }) }}
+                                        required
+                                    />
+                                    <br /> <br />
+                                    <button type='submit'>Submit</button>
+
+                                </form>
+                            </div></div>
+                        }{
+                            opt == "img" &&
                             <div>
-                                <br /> <br />
-                                <label htmlFor="title">Title: </label>
-                                <input type="text" id='title' onChange={(e) => { setData({ ...data, title: e.target.value }) }} />
-                                <br /> <br />
-                                <label>Upload Image (Max 1MB):</label>
-                                <input type="file" accept="image/*" onChange={handleImageChange} />
-                            </div>
-
-                            {selectedImage && (
-                                <div>
-                                    <h3>Preview:</h3>
-                                    <img src={selectedImage} alt="Selected" style={{ width: '300px', marginTop: '10px' }} />
-                                </div>
-                            )}
-
-                            <button type="submit" style={{ marginTop: '10px' }}>Convert to Base64</button>
-                        </form>
-                    </div >
-                }
-            </div>
-            <div>
-                {
-                    message.map((item) => {
-                        return (
-                            <div className="messages">
-                                {
-                                    item.type == "text" && <div key={item._id}><h2>{item.title}</h2>
-                                        <p>{item.message}</p>
-                                        <button type="submit" style={{ marginTop: '10px', backgroundColor: 'Red' }}>Delete</button>
+                                <form onSubmit={handleImageSubmit}>
+                                    <div>
+                                        <br /> <br />
+                                        <label htmlFor="title">Title: </label>
+                                        <input type="text" id='title' onChange={(e) => { setData({ ...data, title: e.target.value }) }} />
+                                        <br /> <br />
+                                        <label>Upload Image (Max 1MB):</label>
+                                        <input type="file" accept="image/*" onChange={handleImageChange} />
                                     </div>
-                                }{
-                                    item.type == "img" && <div key={item._id}><h2>{item.title}</h2>
 
-                                        <img src={item.message} /> <br />
-                                        {/* <h2>{item._id}</h2> */}
-                                        <button type="submit" style={{ marginTop: '10px', backgroundColor: 'Red' }} onClick={() => { handleDelete(item._id) }}>Delete</button>
-                                    </div>
-                                }
-                            </div>
-                        )
-                    })
-                }
+                                    {selectedImage && (
+                                        <div>
+                                            <h3>Preview:</h3>
+                                            <img src={selectedImage} alt="Selected" style={{ width: '300px', marginTop: '10px' }} />
+                                        </div>
+                                    )}
 
+                                    <button type="submit" style={{ marginTop: '10px' }}>Convert to Base64</button>
+                                </form>
+                            </div >
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    {
+                        // message.map((item) => {
+                        //     return (
+                        //         <div className="messages">
+                        //             {
+                        //                 item.type == "text" && <div key={item._id}><h2>{item.title}</h2>
+                        //                     <p>{item.message}</p>
+                        //                     <button type="submit" style={{ marginTop: '10px', backgroundColor: 'Red' }}>Delete</button>
+                        //                 </div>
+                        //             }{
+                        //                 item.type == "img" && <div key={item._id}><h2>{item.title}</h2>
+
+                        //                     <img src={item.message} /> <br />
+                        //                     {/* <h2>{item._id}</h2> */}
+                        //                     <button type="submit" style={{ marginTop: '10px', backgroundColor: 'Red' }} onClick={() => { handleDelete(item._id) }}>Delete</button>
+                        //                 </div>
+                        //             }
+                        //         </div>
+                        //     )
+                        // })
+                    }
+                </div>
             </div>
         </div>
     )

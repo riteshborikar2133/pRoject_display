@@ -44,8 +44,9 @@ function Login() {
                 <h2>Login Page</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>Email:</label>
+                        <label className="classlabel">Email:</label>
                         <input
+                            className="logininput"
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -55,6 +56,7 @@ function Login() {
                     <div className="form-group">
                         <label>Password:</label>
                         <input
+                            className="logininput"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -64,6 +66,7 @@ function Login() {
                     <div className="form-group">
                         <label>Author:</label>
                         <select
+                            className="logininput"
                             value={author}
                             onChange={(e) => setAuthor(e.target.value)}
                             required
@@ -75,7 +78,7 @@ function Login() {
                         </select>
                     </div>
                     {error && <p className="error">{error}</p>}
-                    <button type="submit">Login</button>
+                    <button className="loginbtn" type="submit">Login</button>
                 </form>
             </div>
         </div>

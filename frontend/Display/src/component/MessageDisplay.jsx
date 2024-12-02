@@ -18,7 +18,7 @@ const MessageDisplay = () => {
     axios.get('http://127.0.0.1:5000/api/circulars')
       .then(response => {
         setMessages(response.data);  // Assuming response.data is an array of message objects
-        console.log(response.data);
+        console.log((response.data));
         setLoader(null)
       })
       .catch(error => {

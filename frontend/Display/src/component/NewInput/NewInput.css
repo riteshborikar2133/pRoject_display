@@ -38,7 +38,7 @@ label {
 }
 
 input, textarea, select {
-    width: 100%;
+    width: 90%;
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #d1a954; /* Matching border color for inputs */
